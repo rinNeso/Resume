@@ -185,6 +185,6 @@ export const skills = [
 ]
 
 export const education = [
-  { school: 'Georgia Southern University', detail: 'Coursework', when: '2015–2016, 2018–2019' },
-  { school: 'Gwinnett Technical College', detail: 'Coursework', when: '2016–2017' },
+  { school: 'Georgia Southern University', detail: 'Coursework in Computer Science', when: '2015–2016, 2018–2019' },
+  { school: 'Gwinnett Technical College', detail: 'Coursework in Computer Programming', when: '2016–2017' },
 ]
