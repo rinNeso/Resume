@@ -14,6 +14,7 @@
           variant="text"
           size="small"
           class="label jump-link"
+          @click.prevent="jump(s.id)"
         >
           {{ s.label }}
         </v-btn>
@@ -115,6 +116,7 @@
 
 <script setup>
   import { nextTick, onMounted } from 'vue'
+  import { scrollToElement } from '@/utils/scroll'
   import { education, experience, projects, skills, summary } from '@/data/resume'
 
   const sections = [
@@ -123,6 +125,13 @@
     { id: 'skills', label: 'Skills' },
     { id: 'education', label: 'Education' },
   ]
+
+  // Section links glide to their section instead of jumping, and update the
+  // address so the link can be copied.
+  function jump (id) {
+    scrollToElement(document.getElementById(id))
+    history.replaceState(history.state, '', `#${id}`)
+  }
 
   // A link like resume.heiland.tv/#projects arrives before the page has
   // rendered, so the browser can't scroll to it by itself.

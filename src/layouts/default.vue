@@ -4,4 +4,5 @@
   </v-main>
 
   <AppFooter />
+  <BackToTop />
 </template>

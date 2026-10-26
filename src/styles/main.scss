@@ -17,10 +17,9 @@
   --line: rgb(var(--v-theme-line));
 }
 
+// In-page jumps animate in JS (utils/scroll.js); scroll-padding still
+// clears the sticky bar for anything the browser scrolls itself.
 html { scroll-padding-top: 4rem; }
-@media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
-}
 
 .v-application {
   font-size: 1rem;
