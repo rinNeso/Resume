@@ -1,0 +1,82 @@
+/**
+ * src/styles/main.scss
+ *
+ * Site-wide type and the few layout rules Vuetify's grid doesn't cover.
+ * Colors come from the Vuetify theme (src/plugins/vuetify.js).
+ */
+
+@import '@fontsource-variable/archivo/standard.css';
+@import '@fontsource-variable/public-sans/index.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+:root {
+  --display: 'Archivo Variable', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --muted: rgb(var(--v-theme-muted));
+  --line: rgb(var(--v-theme-line));
+}
+
+html { scroll-padding-top: 4rem; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+.v-application {
+  font-size: 1rem;
+  line-height: 1.6;
+
+  a { color: rgb(var(--v-theme-primary)); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+}
+
+.page {
+  max-width: 64rem;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+}
+
+// Small uppercase mono labels: dates, kinds, spec names.
+.label {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mono { font-family: var(--mono); }
+.muted { color: var(--muted); }
+
+.section-title {
+  font-family: var(--display);
+  font-stretch: 112%;
+  font-weight: 750;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+
+  &::after { content: ''; flex: 1; border-top: 1px solid var(--line); transform: translateY(-0.3em); }
+}
+
+ul.points {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+
+  li::marker { color: var(--muted); }
+}
+
+h3 { font-weight: 650; font-size: 1.1875rem; line-height: 1.3; text-wrap: balance; }
+
+:focus-visible { outline: 2px solid rgb(var(--v-theme-primary)); outline-offset: 3px; }
+
+@media print {
+  .no-print { display: none !important; }
+  .v-application { background: #fff !important; }
+}

@@ -5,6 +5,8 @@
  */
 
 // https://vuetifyjs.com/features/sass-variables/`
-// @use 'vuetify/settings' with (
-//   $color-pack: false
-// );
+// Public Sans is the U.S. Web Design System's typeface.
+@use 'vuetify/settings' with (
+  $body-font-family: ('Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif),
+  $heading-font-family: ('Archivo Variable', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif),
+);

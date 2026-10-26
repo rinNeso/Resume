@@ -5,7 +5,3 @@
 
   <AppFooter />
 </template>
-
-<script setup>
-  //
-</script>
