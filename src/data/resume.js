@@ -67,7 +67,9 @@ export const experience = [
 
 /**
  * `repo` is "owner/name" for a public GitHub repo; projects without one
- * show `where` instead (e.g. "Self-hosted").
+ * show `where` instead (e.g. "Self-hosted"). `private: true` keeps the repo
+ * name but shows a "Private repo" label instead of a dead link; delete it
+ * once the repo is public.
  */
 export const projects = [
   {
@@ -169,6 +171,7 @@ export const projects = [
     ],
     tags: ['Python', 'Bash', 'MakeMKV', 'Docker'],
     repo: 'rinNeso/disc-ripper',
+    private: true,
   },
 ]
 

@@ -52,7 +52,7 @@
         </v-chip>
       </div>
       <v-btn
-        v-if="project.repo"
+        v-if="project.repo && !project.private"
         :href="`https://github.com/${project.repo}`"
         target="_blank"
         rel="noopener"
@@ -68,9 +68,10 @@
       <v-chip
         v-else
         class="mono"
-        variant="outlined"
+        :color="project.private ? 'lock' : undefined"
+        :variant="project.private ? 'tonal' : 'outlined'"
       >
-        {{ project.where }}
+        {{ project.private ? 'Private repo' : project.where }}
       </v-chip>
     </div>
   </v-card>
