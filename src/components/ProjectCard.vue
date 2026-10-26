@@ -3,12 +3,31 @@
     :id="project.id"
     variant="outlined"
     class="card d-flex flex-column flex-grow-1"
+    :class="{ linked: hasPage }"
   >
     <div class="d-flex justify-space-between align-start ga-4">
       <h3 class="ma-0">
-        {{ project.name }}
+        <router-link
+          v-if="hasPage"
+          :to="`/projects/${project.id}`"
+          class="stretched"
+        >
+          {{ project.name }}
+        </router-link>
+        <template v-else>
+          {{ project.name }}
+        </template>
       </h3>
-      <span class="label kind">{{ project.kind }}</span>
+      <span class="label kind">
+        {{ project.kind }}
+        <v-icon
+          v-if="hasPage"
+          :icon="mdiArrowRight"
+          size="14"
+          class="go"
+          aria-hidden="true"
+        />
+      </span>
     </div>
 
     <div :class="project.specs ? 'cols' : 'stack'">
@@ -61,7 +80,7 @@
         variant="tonal"
         color="primary"
         size="small"
-        class="text-none mono"
+        class="text-none mono above"
       >
         {{ project.repo }}
       </v-btn>
@@ -78,11 +97,17 @@
 </template>
 
 <script setup>
-  import { mdiArrowTopRight, mdiGithub } from '@mdi/js'
+  import { computed } from 'vue'
+  import { mdiArrowRight, mdiArrowTopRight, mdiGithub } from '@mdi/js'
+  import { details } from '@/data/details'
 
-  defineProps({
+  const props = defineProps({
     project: { type: Object, required: true },
   })
+
+  // Cards with a project page are clickable anywhere; the repo button
+  // stays its own link on top.
+  const hasPage = computed(() => Boolean(details[props.project.id]))
 </script>
 
 <style scoped>
@@ -92,7 +117,19 @@
   border-color: var(--line);
   background: rgb(var(--v-theme-surface));
   scroll-margin-top: 4rem;
+  position: relative;
+  transition: border-color 120ms;
 }
+.card.linked:hover, .card.linked:focus-within { border-color: rgb(var(--v-theme-primary)); }
+.stretched { color: inherit !important; text-decoration: none; }
+.stretched::after { content: ''; position: absolute; inset: 0; z-index: 0; }
+.stretched:focus-visible { outline: none; }
+.card:has(.stretched:focus-visible) { outline: 2px solid rgb(var(--v-theme-primary)); outline-offset: 2px; }
+.above { position: relative; z-index: 1; }
+.go { margin-left: 0.15rem; transition: transform 120ms; }
+.card.linked:hover .go { transform: translateX(3px); }
+.card :deep(a:not(.stretched)) { position: relative; z-index: 1; }
+
 .kind { margin-top: 0.15rem; white-space: nowrap; }
 .stack { display: grid; gap: 0.85rem; min-width: 0; align-content: start; }
 .cols { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.5rem 2.5rem; }

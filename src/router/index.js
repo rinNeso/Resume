@@ -12,6 +12,13 @@ import { routes } from 'vue-router/auto-routes'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
+  // Back to the home page lands on the project's card (/#soloref); a project
+  // page opens at the top; browser back/forward restores where you were.
+  scrollBehavior (to, from, saved) {
+    if (saved) return saved
+    if (to.hash) return { el: to.hash, top: 72 }
+    return { top: 0 }
+  },
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
