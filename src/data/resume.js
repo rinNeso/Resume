@@ -168,7 +168,7 @@ export const projects = [
       'Files a rip automatically only when its title and runtime both match the movie database; anything uncertain goes to a review queue.',
     ],
     tags: ['Python', 'Bash', 'MakeMKV', 'Docker'],
-    where: 'Runs on the homelab',
+    repo: 'rinNeso/disc-ripper',
   },
 ]
 
