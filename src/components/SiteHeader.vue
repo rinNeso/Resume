@@ -57,6 +57,16 @@
         >
           github.com/{{ profile.github }}
         </v-btn>
+        <v-btn
+          href="/Nathan-Heiland-Resume.pdf"
+          download
+          :prepend-icon="mdiFileDownloadOutline"
+          variant="tonal"
+          color="primary"
+          class="text-none no-print download"
+        >
+          Download resume (PDF)
+        </v-btn>
       </div>
     </div>
 
@@ -72,7 +82,7 @@
 
 <script setup>
   import { ref } from 'vue'
-  import { mdiContentCopy, mdiEmailOutline, mdiGithub } from '@mdi/js'
+  import { mdiContentCopy, mdiEmailOutline, mdiFileDownloadOutline, mdiGithub } from '@mdi/js'
   import { profile } from '@/data/resume'
 
   const copied = ref(false)
@@ -110,6 +120,7 @@
 .role { font-size: 1.1875rem; max-width: 40rem; margin: 0; }
 .role :deep(strong) { font-weight: 650; }
 .contact { margin-left: -0.5rem; }
+.download { margin-left: 0.5rem; }
 @media (max-width: 720px) {
   .header { padding-block: 2.5rem 2rem; }
 }

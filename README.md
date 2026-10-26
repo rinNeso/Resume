@@ -16,6 +16,10 @@ npm run dev      # http://localhost:3000
 npm run build    # outputs dist/
 ```
 
+`public/Nathan-Heiland-Resume.pdf` is the downloadable resume. It's built in the
+private `rinNeso/resume-doc` repo with `python3 build.py --public`, which leaves
+out the phone number, and copied here.
+
 The theme (colors for light and dark) is in `src/plugins/vuetify.js`, and the
 site-wide type rules are in `src/styles/main.scss`. The page follows the
 visitor's system light/dark setting.
