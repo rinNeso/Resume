@@ -72,7 +72,7 @@ export const experience = [
 export const projects = [
   {
     id: 'homelab',
-    name: 'HeilandBay homelab',
+    name: 'Homelab and self-hosted infrastructure',
     kind: 'Infrastructure',
     wide: true,
     lede: 'A TrueNAS SCALE storage and application server on a refurbished Dell Precision T7910, racked with a Ubiquiti router, switch and access point.',
