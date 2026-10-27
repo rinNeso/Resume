@@ -106,23 +106,40 @@
         >
           {{ detail.preview.caption }}
         </p>
+      </section>
 
-        <div
-          v-if="detail.screenshots?.length"
-          class="shots"
-        >
+      <section
+        v-if="detail.screenshots?.length"
+        aria-label="Screenshots"
+      >
+        <h2 class="section-title">
+          Screenshots
+        </h2>
+        <div :class="['shots', detail.screenshots[0].device]">
           <figure
             v-for="s in detail.screenshots"
             :key="s.src"
-            :class="['shot', s.device]"
+            class="shot"
           >
             <img
               :src="s.src"
               :alt="s.alt"
               loading="lazy"
             >
+            <figcaption
+              v-if="s.caption"
+              class="muted"
+            >
+              {{ s.caption }}
+            </figcaption>
           </figure>
         </div>
+        <p
+          v-if="detail.shotsNote"
+          class="caption muted mt-4 mb-0"
+        >
+          {{ detail.shotsNote }}
+        </p>
       </section>
 
       <section
@@ -332,16 +349,20 @@
 .tag { color: var(--muted); }
 
 .body { display: grid; gap: 3rem; padding-block: 2.5rem 4rem; }
+.body > * { min-width: 0; }
 .preview { display: grid; gap: 0.6rem; }
 .preview-card { padding: 1.5rem; border-color: var(--line); background: rgb(var(--v-theme-surface)); }
 .preview-card.bare { padding: 0; border: 0; background: none; }
 .caption { font-size: 0.875rem; max-width: 44rem; }
 
-.shots { display: flex; flex-wrap: wrap; gap: 1.5rem; padding-top: 1rem; }
-.shot { margin: 0; }
-.shot img { display: block; border-radius: 1.5rem; box-shadow: 0 0 0 1px var(--line); }
-.shot.phone img { width: min(240px, 100%); }
-.shot.watch img { width: min(180px, 100%); border-radius: 2.2rem; }
+.shots { display: grid; gap: 1.5rem 1.25rem; align-items: start; }
+.shots.phone { grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); }
+.shots.watch { grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); max-width: 52rem; }
+.shot { margin: 0; display: grid; gap: 0.6rem; }
+.shot img { display: block; width: 100%; height: auto; box-shadow: 0 0 0 1px var(--line); }
+.phone .shot img { aspect-ratio: 600 / 1304; border-radius: 14% / 6.5%; }
+.watch .shot img { aspect-ratio: 400 / 477; border-radius: 22% / 18.5%; background: #000; }
+.shot figcaption { font-size: 0.875rem; line-height: 1.35; }
 
 .prose { display: grid; gap: 0.85rem; max-width: 44rem; }
 .prose p { margin: 0; }

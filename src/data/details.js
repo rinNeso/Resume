@@ -8,7 +8,8 @@
  *                  'terminal'  real captured output                  (TerminalPreview)
  *                  'haptics'   SoloRef's haptic patterns             (HapticsPreview)
  *                  'calendar'  the live worlds-cal feed              (CalendarPreview)
- *   screenshots    optional [{ src, alt, device: 'phone' | 'watch' }] in public/projects/
+ *   screenshots    optional [{ src, alt, caption, device: 'phone' | 'watch' }] in public/projects/
+ *   shotsNote      optional line under the screenshots, e.g. where they came from
  *   sections       [{ title, paragraphs?, points?, table? { head, rows }, quote? }]
  */
 
@@ -49,6 +50,13 @@ export const details = {
 
   soloref: {
     icon: '/projects/soloref.png',
+    screenshots: [
+      { src: '/projects/soloref-setup.webp', device: 'watch', caption: 'Setup', alt: 'SoloRef setup screen: New game, with the format set to 3v3, 15 minutes, first to 15.' },
+      { src: '/projects/soloref-live.webp', device: 'watch', caption: 'Live play, 6 seconds on the shot clock', alt: 'Live play: shot clock at 6 in yellow, game clock 5:17 in the first half, score 2 to 3, scoring buttons along the top.' },
+      { src: '/projects/soloref-dead-ball.webp', device: 'watch', caption: 'Dead ball: pick the shot-clock reset', alt: 'Dead ball screen: choose 24, 14 or keep the shot clock, then a large green GO button that restarts play at the touch.' },
+      { src: '/projects/soloref-sudden-death.webp', device: 'watch', caption: 'Tied at time: next score wins', alt: 'Half-court sudden death: NEXT SCORE WINS in large yellow text, score tied 2 to 2.' },
+    ],
+    shotsNote: 'From the watchOS simulator, using the app\'s built-in demo states.',
     preview: {
       type: 'haptics',
       caption: 'The cues a referee feels, from the app\'s pattern table. Play one to see its timing; on Android it also vibrates.',
@@ -133,6 +141,14 @@ export const details = {
 
   morsel: {
     icon: '/projects/morsel.png',
+    screenshots: [
+      { src: '/projects/morsel-resting.webp', device: 'phone', caption: 'Resting: food down', alt: 'Meal timer resting between bites: a ring counting down from 30 with 23 seconds left, 11 bites, 6:06 into the meal.' },
+      { src: '/projects/morsel-take-a-bite.webp', device: 'phone', caption: 'Rest over: take a bite', alt: 'Meal timer ready: a full green ring reading Take a bite, then tap when it\'s down.' },
+      { src: '/projects/morsel-history.webp', device: 'phone', caption: 'Meal history', alt: 'Meal history list: each meal with bites, average pace, fullness out of 10, calories and duration.' },
+      { src: '/projects/morsel-calories.webp', device: 'phone', caption: 'Calories', alt: 'Calories screen: today\'s total against a goal, the 7-day average, and a daily intake chart with a 7-day average line.' },
+      { src: '/projects/morsel-weight.webp', device: 'phone', caption: 'Weight trend', alt: 'Weight screen: smoothed trend weight, rate per week, predictions at 7 and 30 days and for the goal, and milestone progress.' },
+    ],
+    shotsNote: 'From the iOS simulator, filled with sample data rather than real meals or weights.',
     preview: {
       type: 'flow',
       caption: 'Everything stays on the phone. Weight comes in from Apple Health; nothing goes out.',
