@@ -132,17 +132,53 @@
         <h2 class="section-title">
           Hardware
         </h2>
-        <dl class="specs">
-          <template
-            v-for="[k, v] in project.specs"
-            :key="k"
+        <div :class="{ hardware: project.photo }">
+          <a
+            v-if="project.photo"
+            :href="project.photo.full"
+            target="_blank"
+            class="rack-photo"
+            title="Open full size"
           >
-            <dt class="label">
-              {{ k }}
-            </dt>
-            <dd>{{ v }}</dd>
-          </template>
-        </dl>
+            <img
+              :src="project.photo.src"
+              :srcset="`${project.photo.src} 800w, ${project.photo.full} 1600w`"
+              sizes="(max-width: 720px) 100vw, 22rem"
+              :alt="project.photo.alt"
+              width="800"
+              height="1067"
+            >
+          </a>
+          <div class="hardware-text">
+            <dl class="specs">
+              <template
+                v-for="[k, v] in project.specs"
+                :key="k"
+              >
+                <dt class="label">
+                  {{ k }}
+                </dt>
+                <dd>{{ v }}</dd>
+              </template>
+            </dl>
+            <div
+              v-if="project.photo?.rack"
+              class="rack-list"
+            >
+              <p class="label ma-0">
+                In the rack, top to bottom
+              </p>
+              <ol class="points">
+                <li
+                  v-for="r in project.photo.rack"
+                  :key="r"
+                >
+                  {{ r }}
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section
@@ -325,6 +361,11 @@
 .specs { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.4rem 1.5rem; margin: 0; }
 .specs dt { padding-top: 0.15rem; }
 .specs dd { margin: 0; }
+.hardware { display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: 1.5rem 2.5rem; align-items: start; }
+.hardware-text { display: grid; gap: 1.5rem; align-content: start; }
+.rack-list { display: grid; gap: 0.5rem; }
+.rack-list .points { padding-left: 1.5rem; }
+.rack-photo img { display: block; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); }
 
 .table-wrap { overflow-x: auto; }
 .table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; }
@@ -340,5 +381,7 @@
 @media (max-width: 720px) {
   .icon { width: 56px; height: 56px; border-radius: 13px; }
   .preview-card { padding: 1rem; }
+  .hardware { grid-template-columns: minmax(0, 1fr); }
+  .rack-photo { max-width: 24rem; }
 }
 </style>

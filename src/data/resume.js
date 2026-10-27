@@ -93,6 +93,20 @@ export const projects = [
       ['Runs', 'Docker Compose stacks and TrueNAS apps'],
     ],
     tags: ['TrueNAS SCALE', 'ZFS', 'Docker', 'Cloudflare', 'UniFi', 'Linux'],
+    photo: {
+      src: '/projects/homelab-rack-800.jpg',
+      thumb: '/projects/homelab-rack-400.jpg',
+      full: '/projects/homelab-rack-1600.jpg',
+      alt: 'The homelab rack, top to bottom: AT&T fiber gateway, UniFi gateway and Express 7 access point, UniFi switch, CyberPower UPS and the Dell Precision T7910 server.',
+      // Top to bottom, as shown on the project page.
+      rack: [
+        'AT&T BGW320 fiber gateway',
+        'UniFi gateway and UniFi Express 7 access point',
+        'UniFi USW Pro Max switch',
+        'CyberPower CP1500PFCRM2U, a 1500 VA rack UPS',
+        'Dell Precision T7910, the server itself',
+      ],
+    },
     where: 'Self-hosted',
   },
   {

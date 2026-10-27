@@ -30,7 +30,7 @@
       </span>
     </div>
 
-    <div :class="project.specs ? 'cols' : 'stack'">
+    <div :class="[project.specs ? 'cols' : 'stack', { 'with-photo': project.photo }]">
       <div class="stack">
         <p class="muted ma-0">
           {{ project.lede }}
@@ -57,6 +57,15 @@
           <dd>{{ v }}</dd>
         </template>
       </dl>
+      <img
+        v-if="project.photo"
+        :src="project.photo.thumb"
+        :alt="project.photo.alt"
+        class="photo"
+        width="400"
+        height="533"
+        loading="lazy"
+      >
     </div>
 
     <div class="foot mt-auto">
@@ -133,6 +142,8 @@
 .kind { margin-top: 0.15rem; white-space: nowrap; }
 .stack { display: grid; gap: 0.85rem; min-width: 0; align-content: start; }
 .cols { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.5rem 2.5rem; }
+.cols.with-photo { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) 9.5rem; }
+.photo { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 0 0 1px var(--line); }
 .points { font-size: 0.9375rem; }
 .specs {
   display: grid;
@@ -154,7 +165,13 @@
   gap: 0.6rem 1rem;
 }
 .tag { font-size: 0.75rem; color: var(--muted); }
+@media (max-width: 960px) {
+  .cols.with-photo { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .cols.with-photo > .stack { grid-row: span 2; }
+  .cols.with-photo .photo { max-width: 12rem; }
+}
 @media (max-width: 720px) {
-  .cols { grid-template-columns: minmax(0, 1fr); }
+  .cols, .cols.with-photo { grid-template-columns: minmax(0, 1fr); }
+  .cols.with-photo > .stack { grid-row: auto; }
 }
 </style>
