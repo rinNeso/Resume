@@ -19,5 +19,14 @@ export default [
     rules: {
       'vue/multi-word-component-names': 'off',
     },
-  }
+  },
+
+  // Build scripts run under Node, not in the browser.
+  {
+    name: 'app/node-scripts',
+    files: ['scripts/**', '*.config.{js,mjs}'],
+    languageOptions: {
+      globals: { process: 'readonly', Buffer: 'readonly' },
+    },
+  },
 ]

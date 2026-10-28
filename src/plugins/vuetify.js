@@ -1,7 +1,7 @@
 /**
  * plugins/vuetify.js
  *
- * Framework documentation: https://vuetifyjs.com`
+ * Theme colors and component defaults. Docs: https://vuetifyjs.com
  */
 
 // Styles
@@ -49,7 +49,6 @@ const dark = {
 // Follow the visitor's system setting; App.vue keeps it in sync if it changes.
 const prefersDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
 
-// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   theme: {
     defaultTheme: prefersDark ? 'dark' : 'light',

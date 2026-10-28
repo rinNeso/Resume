@@ -1,7 +1,7 @@
 /**
  * main.js
  *
- * Bootstraps Vuetify and other plugins then mounts the App`
+ * Registers Vuetify and the router, then mounts the app on #app.
  */
 
 // Plugins

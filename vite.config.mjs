@@ -1,5 +1,4 @@
 // Plugins
-import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Layouts from 'vite-plugin-vue-layouts'
 import Vue from '@vitejs/plugin-vue'
@@ -13,6 +12,7 @@ import { fileURLToPath, URL } from 'node:url'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    // File routes from src/pages; must run before Vue.
     VueRouter(),
     Layouts(),
     Vue({
@@ -25,39 +25,26 @@ export default defineConfig({
         configFile: 'src/styles/settings.scss',
       },
     }),
+    // Registers src/components/*.vue by name, so pages use them without imports.
     Components(),
-    AutoImport({
-      imports: [
-        'vue',
-        'vue-router',
-      ],
-      eslintrc: {
-        enabled: true,
-      },
-      vueTemplate: true,
-    }),
   ],
-  define: { 'process.env': {} },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
-    ],
   },
   server: {
     port: 3000,
   },
   css: {
     preprocessorOptions: {
+      // Vuetify's component styles are .sass and ours are .scss; both use
+      // sass-embedded's modern API, which is faster and avoids the
+      // legacy-API deprecation warning.
       sass: {
+        api: 'modern-compiler',
+      },
+      scss: {
         api: 'modern-compiler',
       },
     },

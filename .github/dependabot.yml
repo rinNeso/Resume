@@ -1,0 +1,20 @@
+# Monthly update PRs for npm packages and the workflow actions. Minor and
+# patch bumps arrive as one grouped PR per ecosystem; majors stay separate
+# so each can be checked on its own (Vuetify, Vite and vue-router especially).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]

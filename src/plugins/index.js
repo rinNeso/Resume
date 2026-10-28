@@ -1,7 +1,7 @@
 /**
  * plugins/index.js
  *
- * Automatically included in `./src/main.js`
+ * Every app plugin, registered from main.js.
  */
 
 // Plugins
