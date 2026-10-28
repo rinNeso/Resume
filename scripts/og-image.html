@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  The link-preview card (public/og-image.png, 1200x630). Rendered by
+  scripts/og-image.mjs; colors are the light theme in src/plugins/vuetify.js
+  and the type matches the site header.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      @font-face {
+        font-family: 'Archivo Variable';
+        font-weight: 100 900;
+        font-stretch: 62% 125%;
+        src: url(../node_modules/@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2) format('woff2-variations');
+      }
+      @font-face {
+        font-family: 'Public Sans Variable';
+        font-weight: 100 900;
+        src: url(../node_modules/@fontsource-variable/public-sans/files/public-sans-latin-wght-normal.woff2) format('woff2-variations');
+      }
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-weight: 500;
+        src: url(../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2) format('woff2');
+      }
+
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background: #f3f5f8;
+        color: #101a2b;
+        font-family: 'Public Sans Variable', sans-serif;
+        display: grid;
+        grid-template-rows: 1fr auto;
+      }
+      main {
+        display: grid;
+        align-content: center;
+        gap: 30px;
+        padding: 0 88px;
+        border-left: 14px solid #1d4fb8;
+      }
+      .label {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 24px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #566278;
+        margin: 0;
+      }
+      /* Expanded caps, like the site header. */
+      h1 {
+        font-family: 'Archivo Variable', sans-serif;
+        font-stretch: 125%;
+        font-weight: 850;
+        font-size: 104px;
+        line-height: 0.95;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+        margin: 0;
+      }
+      .role { font-size: 36px; line-height: 1.3; margin: 0; max-width: 960px; }
+      .role strong { font-weight: 650; }
+      .chip {
+        justify-self: start;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 24px;
+        color: #1d4fb8;
+        background: rgba(29, 79, 184, 0.1);
+        border-radius: 6px;
+        padding: 8px 18px;
+      }
+      footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 26px 88px 30px 102px;
+        border-top: 2px solid #d8dde6;
+        background: #ffffff;
+      }
+      .site { font-family: 'IBM Plex Mono', monospace; font-size: 28px; color: #1d4fb8; }
+      /* Same mark as public/favicon.svg. */
+      .mark {
+        font-family: 'Archivo Variable', sans-serif;
+        font-stretch: 125%;
+        font-weight: 850;
+        font-size: 28px;
+        color: #8fb0ff;
+        background: #101a2b;
+        border-radius: 8px;
+        padding: 4px 12px;
+        letter-spacing: 0.02em;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="label">
+        San Antonio, TX
+      </p>
+      <h1>Nathan Heiland</h1>
+      <p class="role">
+        Software Developer · Team lead at <strong>Platform One</strong>, U.S.&nbsp;Air&nbsp;Force
+      </p>
+      <span class="chip">Active TS/SCI clearance</span>
+    </main>
+    <footer>
+      <span class="site">resume.heiland.tv</span>
+      <span class="mark">NH</span>
+    </footer>
+  </body>
+</html>

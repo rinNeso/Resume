@@ -3,17 +3,45 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- GitHub Pages can't send headers, so the policy rides in a meta tag.
+         Inline styles are Vuetify's runtime theme; rinneso.github.io is the
+         live worlds-cal feed. JSON-LD is data, not script, so it's unaffected. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://rinneso.github.io; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!-- scripts/route-pages.mjs rewrites the title, description, og:/twitter:
+         text, og:url and canonical for each page, and the noscript block. -->
     <title>Nathan Heiland</title>
     <meta name="description" content="Nathan Heiland: software developer and team lead at Platform One, U.S. Air Force. Resume, side projects and their repositories.">
+    <link rel="canonical" href="https://resume.heiland.tv/">
+    <meta property="og:site_name" content="Nathan Heiland">
     <meta property="og:title" content="Nathan Heiland">
     <meta property="og:description" content="Software developer and team lead at Platform One, U.S. Air Force. Resume and side projects.">
     <meta property="og:url" content="https://resume.heiland.tv/">
     <meta property="og:type" content="profile">
+    <meta property="og:image" content="https://resume.heiland.tv/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nathan Heiland, Software Developer and team lead at Platform One, U.S. Air Force. Active TS/SCI clearance. resume.heiland.tv">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nathan Heiland">
+    <meta name="twitter:description" content="Software developer and team lead at Platform One, U.S. Air Force. Resume and side projects.">
+    <meta name="twitter:image" content="https://resume.heiland.tv/og-image.png">
+    <meta name="twitter:image:alt" content="Nathan Heiland, Software Developer and team lead at Platform One, U.S. Air Force. Active TS/SCI clearance. resume.heiland.tv">
     <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f3f5f8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0d1420" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   </head>
   <body>
-    <noscript>This resume needs JavaScript. The source is at https://github.com/rinNeso/Resume.</noscript>
+    <noscript>
+      <p>
+        This resume needs JavaScript for the full page.
+        <a href="/Nathan-Heiland-Resume.pdf">Download the resume (PDF)</a> ·
+        <a href="https://github.com/rinNeso/Resume">source</a>
+      </p>
+    </noscript>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+  PNG versions of public/favicon.svg (apple-touch-icon.png, favicon.ico),
+  rendered by scripts/render-images.mjs. Same geometry and colors as the SVG,
+  but the letters use the site's own Archivo instead of Arial Black, which
+  most Linux and Android devices don't have; a PNG looks the same everywhere.
+  ?size=<px> sets the size; ?square drops the rounded corners (iOS rounds
+  home-screen icons itself and wants them opaque).
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      @font-face {
+        font-family: 'Archivo Variable';
+        font-weight: 100 900;
+        font-stretch: 62% 125%;
+        src: url(../node_modules/@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2) format('woff2-variations');
+      }
+      html, body { margin: 0; background: transparent; overflow: hidden; }
+      svg { display: block; }
+      text { font-family: 'Archivo Variable', sans-serif; font-weight: 900; font-stretch: 112%; }
+    </style>
+  </head>
+  <body>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+    >
+      <rect
+        width="64"
+        height="64"
+        rx="8"
+        fill="#101a2b"
+      />
+      <text
+        x="32"
+        y="42.5"
+        text-anchor="middle"
+        font-size="28"
+        fill="#8fb0ff"
+      >NH</text>
+    </svg>
+    <script>
+      const params = new URLSearchParams(location.search)
+      const size = Number(params.get('size') || 64)
+      const svg = document.querySelector('svg')
+      svg.setAttribute('width', size)
+      svg.setAttribute('height', size)
+      if (params.has('square')) document.querySelector('rect').removeAttribute('rx')
+    </script>
+  </body>
+</html>
