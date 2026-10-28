@@ -23,8 +23,15 @@
   const visible = ref(false)
   const update = () => { visible.value = window.scrollY > window.innerHeight * 0.8 }
 
+  // The button hides once the page is back at the top, which would drop
+  // keyboard focus to <body>; hand it to the page's heading instead.
   function toTop () {
     scrollToY(0)
+    const heading = document.querySelector('main h1')
+    if (heading) {
+      heading.setAttribute('tabindex', '-1')
+      heading.focus({ preventScroll: true })
+    }
   }
 
   onMounted(() => {

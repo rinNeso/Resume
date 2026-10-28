@@ -10,10 +10,12 @@
       <h1 class="name">
         {{ profile.name }}
       </h1>
+      <!-- eslint-disable vue/no-v-html -- trusted static content from src/data -->
       <p
         class="role"
         v-html="profile.role"
       />
+      <!-- eslint-enable vue/no-v-html -->
 
       <div
         class="d-flex flex-wrap ga-2"
@@ -22,7 +24,7 @@
         <v-chip
           v-for="c in profile.credentials"
           :key="c.text"
-          class="mono"
+          class="mono cred"
           :color="c.key ? 'primary' : undefined"
           :variant="c.key ? 'tonal' : 'outlined'"
         >
@@ -68,6 +70,10 @@
           Download resume (PDF)
         </v-btn>
       </div>
+      <!-- The download button doesn't print, so paper copies say where the short version lives. -->
+      <p class="print-only muted ma-0">
+        A two-page PDF version: <span class="mono">resume.heiland.tv/Nathan-Heiland-Resume.pdf</span>
+      </p>
     </div>
 
     <v-snackbar
@@ -119,9 +125,14 @@
 }
 .role { font-size: 1.1875rem; max-width: 40rem; margin: 0; }
 .role :deep(strong) { font-weight: 650; }
+/* The longest credential wraps rather than widening a 280px screen. */
+.cred.v-chip { height: auto; min-height: var(--v-chip-height); padding-block: 2px; white-space: normal; }
 .contact { margin-left: -0.5rem; }
 .download { margin-left: 0.5rem; }
 @media (max-width: 720px) {
   .header { padding-block: 2.5rem 2rem; }
+}
+@media print {
+  .header { gap: 0.75rem; padding-block: 0 1.25rem; }
 }
 </style>

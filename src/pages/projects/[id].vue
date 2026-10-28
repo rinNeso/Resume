@@ -50,7 +50,7 @@
             :append-icon="mdiArrowTopRight"
             variant="tonal"
             color="primary"
-            class="text-none mono"
+            class="text-none mono repo"
           >
             {{ project.repo }}
           </v-btn>
@@ -117,14 +117,17 @@
         </h2>
         <div :class="['shots', detail.screenshots[0].device]">
           <figure
-            v-for="s in detail.screenshots"
+            v-for="(s, i) in detail.screenshots"
             :key="s.src"
             class="shot"
           >
             <img
               :src="s.src"
               :alt="s.alt"
-              loading="lazy"
+              :width="SHOT_SIZE[s.device]?.[0]"
+              :height="SHOT_SIZE[s.device]?.[1]"
+              :loading="i === 0 ? 'eager' : 'lazy'"
+              decoding="async"
             >
             <figcaption
               v-if="s.caption"
@@ -205,7 +208,10 @@
         <h2 class="section-title">
           {{ s.title }}
         </h2>
-        <div class="prose">
+        <div
+          class="prose"
+          @click="onLinkClick"
+        >
           <blockquote
             v-if="s.quote"
             class="quote"
@@ -244,6 +250,7 @@
               </tbody>
             </table>
           </div>
+          <!-- eslint-disable vue/no-v-html -- trusted static content from src/data -->
           <p
             v-for="(p, i) in s.paragraphs"
             :key="i"
@@ -259,6 +266,7 @@
               v-html="p"
             />
           </ul>
+          <!-- eslint-enable vue/no-v-html -->
         </div>
       </section>
 
@@ -268,7 +276,7 @@
       >
         <router-link
           v-if="prev"
-          :to="`/projects/${prev.id}`"
+          :to="`/projects/${prev.id}/`"
           class="pager-link"
         >
           <span class="label">Previous</span>
@@ -277,7 +285,7 @@
         <span v-else />
         <router-link
           v-if="next"
-          :to="`/projects/${next.id}`"
+          :to="`/projects/${next.id}/`"
           class="pager-link right"
         >
           <span class="label">Next</span>
@@ -287,19 +295,12 @@
     </div>
   </div>
 
-  <div
+  <NotFound
     v-else
-    class="page mx-auto missing"
+    title="Project not found"
   >
-    <h1 class="section-title">
-      Project not found
-    </h1>
-    <p>
-      There's no project at this address. <router-link to="/#projects">
-        See all projects
-      </router-link>.
-    </p>
-  </div>
+    There's no project at this address.
+  </NotFound>
 </template>
 
 <script setup>
@@ -308,6 +309,7 @@
   import { mdiArrowLeft, mdiArrowTopRight, mdiGithub } from '@mdi/js'
   import { profile, projects } from '@/data/resume'
   import { details } from '@/data/details'
+  import { useInternalLinks } from '@/utils/links'
 
   const route = useRoute()
   const withPages = projects.filter(p => details[p.id])
@@ -316,9 +318,14 @@
   const detail = computed(() => details[route.params.id])
   const prev = computed(() => withPages[index.value - 1])
   const next = computed(() => withPages[index.value + 1])
+  const onLinkClick = useInternalLinks()
+
+  // Pixel size of each device's captures in public/projects/, so the browser
+  // reserves the space before an image loads.
+  const SHOT_SIZE = { phone: [600, 1304], watch: [400, 477] }
 
   watchEffect(() => {
-    document.title = project.value ? `${project.value.name} · ${profile.name}` : profile.name
+    document.title = `${project.value ? project.value.name : 'Project not found'} · ${profile.name}`
   })
 </script>
 
@@ -361,7 +368,9 @@
 .shot { margin: 0; display: grid; gap: 0.6rem; }
 .shot img { display: block; width: 100%; height: auto; box-shadow: 0 0 0 1px var(--line); }
 .phone .shot img { aspect-ratio: 600 / 1304; border-radius: 14% / 6.5%; }
-.watch .shot img { aspect-ratio: 400 / 477; border-radius: 22% / 18.5%; background: #000; }
+/* Rounded like the watch face, but gently: the captures are rectangular and
+   app text runs into their corners. */
+.watch .shot img { aspect-ratio: 400 / 477; border-radius: 12% / 10%; background: #000; }
 .shot figcaption { font-size: 0.875rem; line-height: 1.35; }
 
 .prose { display: grid; gap: 0.85rem; max-width: 44rem; }
@@ -398,11 +407,23 @@
 .pager-link { display: grid; gap: 0.15rem; text-decoration: none; max-width: 48%; }
 .pager-link.right { text-align: right; }
 .pager-link span:last-child { font-weight: 600; }
-.missing { padding-block: 4rem; }
+/* A long repo name wraps instead of pushing the page past a narrow screen. */
+.repo.v-btn { height: auto; min-height: var(--v-btn-height); padding-block: 6px; }
+.repo :deep(.v-btn__content) { white-space: normal; overflow-wrap: anywhere; min-width: 0; text-align: left; }
 @media (max-width: 720px) {
   .icon { width: 56px; height: 56px; border-radius: 13px; }
   .preview-card { padding: 1rem; }
   .hardware { grid-template-columns: minmax(0, 1fr); }
   .rack-photo { max-width: 24rem; }
+}
+/* Below ~400px a one-line command pushed the table into a sideways scroll
+   that a keyboard can't reach; it wraps at its spaces instead. */
+@media (max-width: 400px) {
+  .table td.mono { white-space: normal; }
+}
+/* A terminal is often taller than what's left of the first page; kept whole
+   it leaves that page nearly blank, so it may run on (it wraps on paper). */
+@media print {
+  .preview-card.bare { break-inside: auto; }
 }
 </style>

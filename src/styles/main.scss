@@ -75,7 +75,50 @@ h3 { font-weight: 650; font-size: 1.1875rem; line-height: 1.3; text-wrap: balanc
 
 :focus-visible { outline: 2px solid rgb(var(--v-theme-primary)); outline-offset: 3px; }
 
+// Vuetify resets `.v-btn { outline: none }` after the rule above and leaves
+// only a faint overlay tint, so its focusable controls need the ring back.
+.v-btn:focus-visible,
+.v-chip:focus-visible,
+.v-card--link:focus-visible { outline: 2px solid rgb(var(--v-theme-primary)); outline-offset: 2px; }
+
+// Headings that receive focus from script (section links, back to top) are
+// landing spots, not controls; the ring only shows after keyboard use anyway.
+[tabindex='-1']:focus-visible { outline-offset: 4px; }
+
+.print-only { display: none; }
+
 @media print {
+  @page { margin: 0.5in; }
+  // Everything is sized in rem, so this tightens the whole page for paper.
+  html { font-size: 14px; }
+
   .no-print { display: none !important; }
+  .print-only { display: block; }
   .v-application { background: #fff !important; }
+  // Paper is always light: print the dark theme in the light theme's ink,
+  // or its pale text lands on white. (Vuetify's theme sheet loads later,
+  // hence the extra :root.)
+  :root .v-theme--dark {
+    --v-theme-background: 243, 245, 248;
+    --v-theme-surface: 255, 255, 255;
+    --v-theme-on-background: 16, 26, 43;
+    --v-theme-on-surface: 16, 26, 43;
+    --v-theme-primary: 29, 79, 184;
+    --v-theme-muted: 86, 98, 120;
+    --v-theme-line: 216, 221, 230;
+    --v-theme-lock: 122, 90, 18;
+    --v-border-color: 86, 98, 120;
+    --v-border-opacity: 0.28;
+    // Declared on :root, these resolved against the dark values before this
+    // override applied; restating them here picks up the light ones.
+    --muted: rgb(var(--v-theme-muted));
+    --line: rgb(var(--v-theme-line));
+  }
+
+  // Keep cards and bullets whole, and headings with what follows them. Jobs
+  // are too long to keep whole without leaving half-empty pages.
+  .v-card, .edu, li, tr, figure { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  .section-title { margin-bottom: 1rem; }
+  .v-card { box-shadow: none !important; }
 }

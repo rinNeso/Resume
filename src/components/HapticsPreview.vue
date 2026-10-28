@@ -25,7 +25,7 @@
           size="small"
           variant="tonal"
           color="primary"
-          :aria-label="`Play ${cue.name}`"
+          :aria-label="`${playing === cue.id ? 'Stop' : 'Play'} ${cue.name}`"
           @click="play(cue)"
         />
         <div>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="legend mono">
-      <span><i class="swatch crit" /> critical pulse (failure, directionUp, retry)</span>
+      <span><i class="swatch crit" /> pulse reserved for critical cues</span>
       <span><i class="swatch" /> other pulse</span>
     </div>
   </div>

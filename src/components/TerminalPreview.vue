@@ -3,7 +3,15 @@
     <div class="bar mono">
       {{ title }}
     </div>
-    <div class="body">
+    <!-- Long lines scroll sideways on phones; then it's focusable so arrow
+         keys can scroll it too. When everything fits it's not a Tab stop. -->
+    <div
+      ref="body"
+      class="body"
+      :tabindex="scrolls ? 0 : undefined"
+      :role="scrolls ? 'region' : undefined"
+      :aria-label="scrolls ? (title ? `${title} output` : 'Terminal output') : undefined"
+    >
       <div
         v-for="(l, i) in lines"
         :key="i"
@@ -20,7 +28,7 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
+  import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
   const props = defineProps({
     title: { type: String, default: '' },
@@ -40,6 +48,26 @@
     else if (/^\d+ ok/.test(text)) kind = 'sum'
     return { stamp: m ? m[1] : '', text, kind }
   }))
+
+  // Whether the output is wider than its box, rechecked as the box resizes.
+  const body = ref(null)
+  const scrolls = ref(false)
+  let observer
+  const measure = () => {
+    const el = body.value
+    if (el) scrolls.value = el.scrollWidth > el.clientWidth
+  }
+  onMounted(() => {
+    // Without a way to watch it, stay focusable rather than risk a box that
+    // scrolls but can't be reached from the keyboard.
+    if (typeof ResizeObserver === 'undefined') { scrolls.value = true; return }
+    measure()
+    // The mono font arriving late changes the line widths, not the box.
+    document.fonts?.ready.then(measure)
+    observer = new ResizeObserver(measure)
+    observer.observe(body.value)
+  })
+  onBeforeUnmount(() => observer?.disconnect())
 </script>
 
 <style scoped>
@@ -72,6 +100,8 @@
   color: var(--t-fg);
   font: 0.8125rem/1.55 var(--mono);
 }
+/* Inset, since the rounded frame clips anything outside it. */
+.body:focus-visible { outline: 2px solid var(--t-head); outline-offset: -2px; }
 .line { display: flex; white-space: pre; width: max-content; min-width: 100%; min-height: 1.55em; }
 .stamp { flex: none; }
 .stamp { color: var(--t-dim); }
@@ -79,4 +109,13 @@
 .good { color: var(--t-good); }
 .bad { color: var(--t-bad); }
 .sum { color: var(--t-fg); font-weight: 500; }
+/* Paper can't scroll: wrap long lines instead of clipping them, and let a
+   long log run across pages rather than leave a blank one before it. */
+@media print {
+  .term { break-inside: auto; }
+  .bar { break-after: avoid; }
+  .body { overflow: visible; }
+  .line { white-space: pre-wrap; width: auto; overflow-wrap: anywhere; break-inside: avoid; }
+  .line > span:last-child { min-width: 0; }
+}
 </style>

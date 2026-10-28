@@ -4,12 +4,15 @@
     variant="outlined"
     class="card d-flex flex-column flex-grow-1"
     :class="{ linked: hasPage }"
+    :link="false"
+    @click="openFromCard"
+    @auxclick="openFromCard"
   >
-    <div class="d-flex justify-space-between align-start ga-4">
+    <div class="head d-flex flex-wrap justify-space-between align-start">
       <h3 class="ma-0">
         <router-link
           v-if="hasPage"
-          :to="`/projects/${project.id}`"
+          :to="to"
           class="stretched"
         >
           {{ project.name }}
@@ -36,11 +39,13 @@
           {{ project.lede }}
         </p>
         <ul class="points">
+          <!-- eslint-disable vue/no-v-html -- trusted static content from src/data -->
           <li
             v-for="(p, i) in project.points"
             :key="i"
             v-html="p"
           />
+          <!-- eslint-enable vue/no-v-html -->
         </ul>
       </div>
       <dl
@@ -89,7 +94,7 @@
         variant="tonal"
         color="primary"
         size="small"
-        class="text-none mono above"
+        class="text-none mono above repo"
       >
         {{ project.repo }}
       </v-btn>
@@ -106,17 +111,53 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
+  import { computed, onBeforeUnmount } from 'vue'
+  import { useRouter } from 'vue-router'
   import { mdiArrowRight, mdiArrowTopRight, mdiGithub } from '@mdi/js'
   import { details } from '@/data/details'
 
   const props = defineProps({
     project: { type: Object, required: true },
   })
+  const router = useRouter()
 
   // Cards with a project page are clickable anywhere; the repo button
-  // stays its own link on top.
+  // stays its own link on top. The trailing slash is the address GitHub
+  // Pages serves directly, so a copied URL doesn't take a redirect.
   const hasPage = computed(() => Boolean(details[props.project.id]))
+  const to = computed(() => `/projects/${props.project.id}/`)
+
+  // The title link covers the card, but the text sits above it so it can be
+  // selected and copied. A plain click on that text still opens the page,
+  // after a short wait: the first click of a double- or triple-click (word or
+  // paragraph selection) arrives looking like a plain one, so the page only
+  // opens if no second click and no selection follow. Drag-selecting, or
+  // clicking a real link or button, never opens it. The title link stays the
+  // one keyboard and screen-reader target.
+  const DOUBLE_CLICK_MS = 250
+  let pending = 0
+  const cancelPending = () => { clearTimeout(pending); pending = 0 }
+  const hasSelection = () => Boolean(String(window.getSelection?.() ?? '').trim())
+
+  function openFromCard (e) {
+    cancelPending()
+    if (!hasPage.value || e.defaultPrevented || e.button > 1) return
+    if (e.target.closest('a, button')) return
+    if (hasSelection()) return
+    // Middle-click or a modifier opens a tab, as it would on the link.
+    if (e.button === 1 || e.metaKey || e.ctrlKey || e.shiftKey) {
+      window.open(router.resolve(to.value).href, '_blank', 'noopener')
+    } else if (e.detail === 1) {
+      pending = setTimeout(() => {
+        pending = 0
+        if (!hasSelection()) router.push(to.value)
+      }, DOUBLE_CLICK_MS)
+    } else if (e.detail === 0) {
+      // A click with no pointer behind it (assistive tech) has nothing to wait for.
+      router.push(to.value)
+    }
+  }
+  onBeforeUnmount(cancelPending)
 </script>
 
 <style scoped>
@@ -138,8 +179,20 @@
 .go { margin-left: 0.15rem; transition: transform 120ms; }
 .card.linked:hover .go { transform: translateX(3px); }
 .card :deep(a:not(.stretched)) { position: relative; z-index: 1; }
+/* Text above the stretched link, so it can be selected (see openFromCard). */
+.linked .stack, .linked .specs { position: relative; z-index: 1; cursor: pointer; }
 
+.head { gap: 0.25rem 1rem; }
 .kind { margin-top: 0.15rem; white-space: nowrap; }
+/* On phones a long title would push some labels onto their own line and
+   leave others beside it; stacking every one keeps the cards alike. */
+@media (max-width: 600px) {
+  .head { flex-direction: column; }
+  .kind { margin-top: 0; }
+}
+/* A long repo name wraps instead of pushing the card past a 320px screen. */
+.repo.v-btn { height: auto; min-height: var(--v-btn-height); padding-block: 4px; }
+.repo :deep(.v-btn__content) { white-space: normal; overflow-wrap: anywhere; min-width: 0; text-align: left; }
 .stack { display: grid; gap: 0.85rem; min-width: 0; align-content: start; }
 .cols { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.5rem 2.5rem; }
 .cols.with-photo { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) 9.5rem; }
@@ -173,5 +226,17 @@
 @media (max-width: 720px) {
   .cols, .cols.with-photo { grid-template-columns: minmax(0, 1fr); }
   .cols.with-photo > .stack { grid-row: auto; }
+}
+@media print {
+  .card { padding: 1rem; gap: 0.6rem; }
+  /* The homelab card is most of a page; kept whole it strands the Projects
+     heading and leaves half a page blank. Its parts still stay whole. */
+  .card:has(.with-photo) { break-inside: auto; }
+  .head { break-after: avoid; }
+  .specs > * { break-inside: avoid; }
+  .foot { padding-top: 0.6rem; }
+  /* The rack photo has its own page; on paper it only stretches the card. */
+  .photo { display: none; }
+  .cols.with-photo { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
 }
 </style>

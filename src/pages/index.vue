@@ -22,7 +22,10 @@
     </v-sheet>
   </div>
 
-  <div class="page mx-auto body">
+  <div
+    class="page mx-auto body"
+    @click="onLinkClick"
+  >
     <section aria-label="Summary">
       <p class="summary ma-0">
         {{ summary }}
@@ -52,11 +55,13 @@
             </template>
           </p>
           <ul class="points">
+            <!-- eslint-disable vue/no-v-html -- trusted static content from src/data -->
             <li
               v-for="(p, i) in job.points"
               :key="i"
               v-html="p"
             />
+            <!-- eslint-enable vue/no-v-html -->
           </ul>
         </div>
       </article>
@@ -91,6 +96,7 @@
           <dt class="label">
             {{ label }}
           </dt>
+          <!-- eslint-disable-next-line vue/no-v-html -- trusted static content from src/data -->
           <dd v-html="items" />
         </template>
       </dl>
@@ -116,8 +122,10 @@
 
 <script setup>
   import { nextTick, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useInternalLinks } from '@/utils/links'
   import { scrollToElement } from '@/utils/scroll'
-  import { education, experience, projects, skills, summary } from '@/data/resume'
+  import { education, experience, profile, projects, skills, summary } from '@/data/resume'
 
   const sections = [
     { id: 'experience', label: 'Experience' },
@@ -126,17 +134,39 @@
     { id: 'education', label: 'Education' },
   ]
 
+  const router = useRouter()
+  const onLinkClick = useInternalLinks()
+
   // Section links glide to their section instead of jumping, and update the
-  // address so the link can be copied.
+  // address so the link can be copied. The address goes through the router,
+  // or its next save would drop the hash and Back from a project would land
+  // on '/' instead of the section (the router leaves the scrolling to this).
+  // `.prevent` also cancels the browser's own focus move, so focus goes to
+  // the heading by hand: the next Tab then continues inside the section and
+  // screen readers announce where they are.
   function jump (id) {
-    scrollToElement(document.getElementById(id))
-    history.replaceState(history.state, '', `#${id}`)
+    const section = document.getElementById(id)
+    scrollToElement(section)
+    router.replace({ hash: `#${id}` })
+    const heading = section?.querySelector('h2')
+    if (heading) {
+      heading.setAttribute('tabindex', '-1')
+      heading.focus({ preventScroll: true })
+    }
   }
 
-  // A link like resume.heiland.tv/#projects arrives before the page has
-  // rendered, so the browser can't scroll to it by itself.
   onMounted(() => {
-    if (location.hash) nextTick(() => document.querySelector(location.hash)?.scrollIntoView())
+    // A project page sets its own title, so coming back has to reset it.
+    document.title = profile.name
+
+    // A link like resume.heiland.tv/#projects arrives before the page has
+    // rendered, so the browser can't scroll to it by itself. The hash is
+    // looked up as an id, not a selector, so '#2024' or an encoded hash
+    // can't throw.
+    if (!location.hash) return
+    let id = location.hash.slice(1)
+    try { id = decodeURIComponent(id) } catch { /* malformed escape: use it as is */ }
+    nextTick(() => document.getElementById(id)?.scrollIntoView())
   })
 </script>
 
@@ -148,6 +178,18 @@
 }
 .jump nav { padding-block: 0.4rem; }
 .jump-link { letter-spacing: 0.08em; }
+/* All four links fit down to 320px; narrower than that the row scrolls, and
+   the fade on the right edge says so. */
+@media (max-width: 400px) {
+  .jump nav { gap: 0 !important; }
+  .jump-link { letter-spacing: 0.02em; padding-inline: 7px !important; }
+}
+@media (max-width: 359px) {
+  .jump-link { padding-inline: 4px !important; }
+}
+@media (max-width: 319px) {
+  .jump nav { mask-image: linear-gradient(to left, transparent, #000 2rem); }
+}
 .body {
   display: grid;
   gap: 4rem;
@@ -183,5 +225,16 @@ section { scroll-margin-top: 4rem; }
   .when b { display: inline; margin-right: 0.5rem; }
   .skills { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
   .skills dd { margin-bottom: 0.75rem; }
+}
+@media print {
+  .body { gap: 1.25rem; padding-block: 1.25rem 0; }
+  .job { padding-block: 1rem; }
+  /* A job's title and employer stay with its first bullet (its dates share
+     the row). Chrome ignores break-after between grid rows, so on paper the
+     stack is a flex column, which honours it. */
+  .job .stack { display: flex; flex-direction: column; }
+  .job .stack > h3, .job .stack > p { break-after: avoid; }
+  /* Paper is narrower than the md breakpoint; keep the two-up card grid. */
+  #projects :deep(.v-col-md-6) { flex: 0 0 50%; max-width: 50%; }
 }
 </style>
