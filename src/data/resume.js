@@ -81,13 +81,12 @@ export const projects = [
     points: [
       'Hosts containerized services: a Jellyfin media server with GPU transcoding, a public Counter-Strike 2 server, a modded Minecraft server, and self-hosted Mattermost and Jitsi.',
       'Publishes services on subdomains of a custom domain through Cloudflare Tunnel, with a LAN-side reverse proxy and wildcard TLS so viewers at home stream directly.',
-      
       'Snapshots every app\'s data nightly to a separate pool.',
     ],
     specs: [
       ['CPU', '2× Xeon E5-2690 v3, 48 threads'],
       ['Memory', '64 GB'],
-      ['Storage', '29 TB ZFS RAIDZ1, plus NVMe and SSD pools'],
+      ['Storage', '4 × 8 TB ZFS RAIDZ1 (about 21 TiB usable), plus NVMe and SSD pools'],
       ['GPU', 'GTX 1070 for NVENC transcoding'],
       ['Network', 'UniFi gateway, Cloudflare Tunnel, Caddy'],
       ['Runs', 'Docker Compose stacks and TrueNAS apps'],
@@ -116,7 +115,7 @@ export const projects = [
     lede: 'An Apple Watch app that lets one referee run a basketball game alone: game clock, shot clock and score, with haptics doing the work during live play.',
     points: [
       'Distinct haptic cues at 6 seconds on the shot and game clocks, at shot-clock zero and at 1:30 left, so they read by feel with the wrist down.',
-      'Implements FIBA\'s 2026 shot-clock switch-off rules and the tournament\'s half-court 3v3 format: first to 15, next basket wins on a tie.',
+      'Implements FIBA\'s 2026 shot-clock switch-off rules and a half-court 3v3 format: first to 15, next basket wins on a tie.',
       'Runs inside a HealthKit workout session to keep haptics alive, and restores a game after a crash with the clocks still true.',
       'Pure Swift game logic with 55 tests that run on Linux. Shipped through TestFlight and used to officiate at my unit\'s sports day.',
     ],
@@ -143,7 +142,7 @@ export const projects = [
     lede: 'A native iPhone app that paces meals with a bite timer so fullness has time to register.',
     points: [
       'Tracks calories, a meal journal and weight trends, built in SwiftUI with a local SQLite store.',
-      'Core logic lives in a dependency-free Swift package with 84 tests that run on Linux, no Xcode needed.',
+      'Core logic lives in a dependency-free Swift target; with the storage layer, the package\'s 84 tests run on Linux, no Xcode needed.',
       'Integrated Apple HealthKit and distributed builds through TestFlight.',
     ],
     tags: ['Swift', 'SwiftUI', 'HealthKit', 'GRDB'],
@@ -155,9 +154,9 @@ export const projects = [
     kind: 'Python',
     lede: 'A subscribable calendar of the League of Legends World Championship.',
     points: [
-      'Pulls the schedule from the lolesports API and publishes an iCalendar feed to GitHub Pages every 15 minutes.',
+      'Pulls the schedule from the lolesports API and publishes an iCalendar feed to GitHub Pages on a GitHub Actions schedule.',
       'Undecided matches update in place as teams qualify, and finished matches show the score.',
-      'Follows the newest tournament automatically, so it rolls over each year with no changes.',
+      'Follows the newest tournament the API lists, so next year needs no code changes.',
     ],
     tags: ['Python', 'GitHub Actions', 'iCalendar'],
     repo: 'rinNeso/worlds-cal',

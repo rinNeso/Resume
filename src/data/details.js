@@ -17,23 +17,22 @@ export const details = {
   homelab: {
     preview: {
       type: 'flow',
-      caption: 'How each kind of traffic reaches the server.',
+      caption: 'How each kind of traffic reaches the server, and where its data goes each night.',
       rows: [
         ['Remote viewers', 'Cloudflare Tunnel', 'Jellyfin, Mattermost, Jitsi'],
         ['Players and callers', 'UniFi port forwards', 'Counter-Strike 2, Minecraft, Jitsi audio and video'],
         ['Devices at home', 'Local DNS to Caddy, wildcard TLS', 'Jellyfin at full LAN speed'],
-        
-        ['Every night', 'ZFS snapshots', 'Separate backup pool'],
+        ['Every night', 'ZFS snapshots of every app', 'A separate pool'],
       ],
     },
     sections: [
       {
         title: 'Problems I solved',
         points: [
-          '<strong>Drives that stall the whole box.</strong> The main pool turned out to be SMR drives, which handle small random writes terribly: the system froze while the pool sat nearly idle. I diagnosed it from the kernel\'s I/O pressure stats and wrote a scheduler that pauses the background jobs writing to that pool while someone streams from outside the house, telling home and remote viewers apart by the address the proxy reports.',
+          '<strong>Drives that stall the whole box.</strong> The main pool turned out to be SMR drives, which handle small random writes terribly: the system froze while the pool sat nearly idle. I diagnosed it from the kernel\'s I/O pressure stats and wrote a scheduler that pauses the background jobs writing to that pool while someone streams from outside the house or is on a video call, telling home and remote viewers apart by the address the proxy reports.',
           '<strong>Home streams leaving the house.</strong> Streams at home used to go out through Cloudflare and back, capped by upload speed. A LAN-side Caddy proxy with a wildcard certificate and local DNS now serves home devices directly, while outside viewers still use the tunnel.',
-          '<strong>A single-threaded game server.</strong> Counter-Strike 2 is bound by one core. I pinned it to one CPU socket at the performance governor, and a script keeps every other container off those cores, re-pinning any that an app update recreates.',
-          '<strong>A VPN that died while reporting healthy.</strong> The provider rotated its servers and the tunnel failed for three days while the container\'s health check still passed. The VPN\'s own updater can\'t reach the internet through its kill switch, so a daily job on the host now refreshes the server list.',
+          '<strong>A single-threaded game server.</strong> Counter-Strike 2 is bound by one core. I pinned it to cores on one CPU socket at the performance governor, and a script keeps every other container off those cores, re-pinning any that an app update recreates.',
+          '<strong>A container that reported healthy while its tunnel was dead.</strong> A VPN provider rotated its servers, and the container\'s tunnel failed for three days while its health check still passed. Its own updater can\'t reach the internet through its kill switch, so a daily job on the host now refreshes the server list.',
         ],
       },
       {
@@ -42,7 +41,7 @@ export const details = {
           'Jellyfin media server, transcoding on the GPU with NVENC',
           'A public Counter-Strike 2 server with 20 slots, and a modded Minecraft server',
           'Mattermost and Jitsi as a self-hosted alternative to Discord',
-          'The <a href="/projects/discord-bot">Discord bot</a> and the <a href="/projects/disc-archiving">disc ripper</a>',
+          'The <a href="/projects/discord-bot/">Discord bot</a> and the <a href="/projects/disc-archiving/">disc ripper</a>',
         ],
       },
     ],
@@ -90,7 +89,7 @@ export const details = {
         points: [
           'SoloRefCore is a dependency-free Swift package: a pure reducer for game state, FIBA\'s 2026 shot-clock switch-off rules, cue scheduling and haptic arbitration. Its 55 tests run on Linux.',
           'The watchOS app is only side effects: one timer, the haptic player, the workout session and saving to disk after every action.',
-          'Supports the tournament\'s half-court 3v3 format (first to 15, next basket wins on a tie) and a full two-half game.',
+          'Supports a half-court 3v3 format (first to 15, next basket wins on a tie) and a full two-half game.',
           'Shipped through TestFlight and used to officiate at my unit\'s sports day.',
         ],
       },
@@ -127,7 +126,7 @@ export const details = {
         points: [
           'Summaries come back as a topic outline: a bold line naming the topic and who was in it, then short bullets. The bot reshapes whatever the model writes into that format.',
           'A window longer than a day gets one section per day, posted as each finishes. Private multi-day summaries go to DMs, which also gets around Discord\'s 15-minute reply limit.',
-          'Text-to-speech is limited to an allowlist and one voice channel, after it was abused when anyone could use it.',
+          'Text-to-speech is limited to an allowlist and one voice channel to prevent misuse.',
         ],
       },
       {
@@ -180,7 +179,7 @@ export const details = {
         title: 'How it\'s put together',
         points: [
           'Native SwiftUI for iOS 26. The design goal: indistinguishable from Apple\'s own apps, with deeper customization underneath.',
-          'MorselCore is a dependency-free Swift package (the meal-timer reducer and trend math) whose 84 tests run on Linux, no Xcode needed.',
+          'MorselCore, the meal-timer reducer and trend math, has no dependencies. With the storage layer, the package\'s 84 tests run on Linux, no Xcode needed.',
           'MorselData stores everything in SQLite through GRDB. The Xcode project is generated from a spec, and builds go out through TestFlight.',
         ],
       },
@@ -192,16 +191,16 @@ export const details = {
       type: 'calendar',
       feed: 'https://rinneso.github.io/worlds-cal/worlds.ics',
       subscribe: 'webcal://rinneso.github.io/worlds-cal/worlds.ics',
-      caption: 'Live from the published feed, in your time zone.',
+      caption: 'Times are shown in your time zone.',
     },
     sections: [
       {
         title: 'How it works',
         points: [
           'A Python script pulls the schedule from the lolesports API and writes an iCalendar file.',
-          'GitHub Actions rebuilds it every 15 minutes and publishes it to GitHub Pages, so any calendar app can subscribe.',
+          'GitHub Actions rebuilds it on a schedule and publishes it to GitHub Pages, so any calendar app can subscribe.',
           'Each match keeps a stable ID, so "TBD vs TBD" slots update in place when teams qualify, and finished matches show the score.',
-          'It follows the newest tournament the API lists, so it rolls over to next year with no changes.',
+          'It follows the newest tournament the API lists, so next year needs no code changes.',
         ],
       },
     ],
@@ -211,7 +210,7 @@ export const details = {
     preview: {
       type: 'terminal',
       title: 'check.sh',
-      caption: 'Real output, captured Oct 26, 2026. The four DRIFT lines are files that no longer match the repo, which is exactly what the check is for.',
+      caption: 'Real output, captured Oct 28, 2026. The DRIFT lines are a launcher fix already committed to the repo but not yet installed on the machine, which is exactly what the check is for.',
       text: `== kernel cmdline ==
   ok   amdgpu.runpm=0
   ok   snd_hda_intel.power_save=0
@@ -229,19 +228,30 @@ export const details = {
   ok   0000:c4:00.0 control=on d3cold=0
   ok   0000:c4:00.1 control=on d3cold=0
   ok   egpu-pin-pm.service active
+== journal retention ==
+  ok   journald-size.conf
+  warn journal reaches back to Sat (using 788.3M)
+== update tray (kitty override) ==
+  DRIFT arch-update.desktop -- differs from repo
+  DRIFT arch-update.desktop uses kitty --hold -- it will drop to a zsh prompt and run the p10k wizard
+  ok   tray (pid 2829) started after the override
 == pacman watchlist ==
-  DRIFT hw-watchlist-check -- differs from repo
-  DRIFT hw-watchlist.conf -- differs from repo
-  DRIFT 00-hw-watchlist.hook -- differs from repo
+  ok   hw-watchlist-check
+  ok   hw-verify
+  ok   hw-watchlist.conf
+  ok   00-hw-watchlist.hook
+  ok   99-hw-verify.hook
+  ok   watchlist pre-hook is advisory (no AbortOnFail)
 == local LLM stack ==
-  DRIFT ollama override -- differs from repo
+  ok   ollama override
   ok   open-webui.service
   ok   ollama models are local-only
   ok   open-webui has no external connections
+  ok   ollama :11434 reachable from HeilandBay only
 == package holds ==
   ok   ddcutil pinned via IgnorePkg (ddcutil 2.2.7-1.1)
 
-18 ok, 4 drifted`,
+28 ok, 2 drifted`,
     },
     sections: [
       {
@@ -266,7 +276,7 @@ export const details = {
       {
         title: 'Guardrails',
         points: [
-          'A package-manager hook checks every update against a watchlist of packages known to break this machine. It blocks the dangerous ones and warns about the risky ones. A monitor-control library update once killed the GPU at login three times in a row; it stays pinned until the fixed version ships.',
+          'A package-manager hook flags any update on a watchlist of packages known to break this machine, and a second hook re-checks the fixes once those packages land, since the real risk is an upgrade quietly undoing one. An earlier version blocked dangerous updates outright and was dropped after it stalled a 40-package update: the package manager can only cancel a whole transaction, never one package. A monitor-control library that killed the GPU at login three times in a row stays pinned outright.',
           'check.sh compares the repo against the live system and reports drift, like the output above.',
           'Each failure has a written incident note: what happened and why the fix works.',
         ],
@@ -278,7 +288,7 @@ export const details = {
     preview: {
       type: 'terminal',
       title: 'ripper log',
-      caption: 'Real output from the ripper container. A film disc goes from inserted to ejected with no input.',
+      caption: 'Real output from the ripper container, with disc titles redacted. A film disc goes from inserted to ejected with no input.',
       text: `2026-08-22 12:56:50  DISC_1: new disc detected
 2026-08-22 12:57:20  DISC_1: movie - 1 title(s) [0], main 126min/37737MB -> /output/movies/DISC_1
 2026-08-22 12:57:20  DISC_1: title 0 starting
@@ -294,7 +304,7 @@ export const details = {
       {
         title: 'Deciding what to rip',
         points: [
-          'MakeMKV\'s built-in auto-ripper copies every title, which on these discs means two ~80 GB copies of the same film. The ripper replaces it with its own selection.',
+          'MakeMKV\'s built-in auto-ripper copies every title, which on these discs means two full-size copies of the same film. The ripper replaces it with its own selection.',
           'Duplicates are dropped when two titles share a duration and their sizes are within 0.5%, which removes a film\'s twin but keeps every distinct episode on a TV disc.',
           'Film or TV is decided by size, not length: a feature dwarfs its extras, while episodes are all about the same size. A 108-minute film can sit beside an 80-minute making-of.',
           'A title that stops writing for 7 minutes is abandoned, and a failed disc gets one retry after a clean.',
@@ -303,7 +313,7 @@ export const details = {
       {
         title: 'Deciding what to import',
         points: [
-          'A rip is filed automatically only when its title matches at 0.90 or better with no close runner-up, and its runtime is within 8% of the movie database\'s.',
+          'A rip is filed automatically only when its title matches at 0.90 or better with no close runner-up, and its runtime is within 8 minutes or 8% of the movie database\'s, whichever is larger.',
           'The runtime check stops one disc of a two-disc film importing as the whole movie. Extended editions go to a review queue, which is the right call.',
           'Rips are staged inside the library\'s own filesystem, so importing a 70 GB file is an instant rename rather than a copy.',
         ],
@@ -311,7 +321,7 @@ export const details = {
       {
         title: 'Drive quirks worth knowing',
         points: [
-          'The LG BP60NB10 needs no firmware flashing, but the container needs both its block device and its raw SCSI node.',
+          'The container needs both the drive\'s block device and its raw SCSI node.',
           'Ejecting takes two calls: the eject command reports success but does nothing while the door is latched, so it has to be unlocked first.',
         ],
       },
