@@ -1,0 +1,63 @@
+# Refreshes src/data/worlds-snapshot.json from the worlds-cal feed once a day,
+# so the worlds-cal page has the final results to show after the tournament
+# ends and whenever the live feed is unreachable. The script itself refuses to
+# replace a finished tournament with a partial one.
+#
+# GitHub turns scheduled workflows off after 60 days with no activity in the
+# repo, and between tournaments this one has nothing to commit. Re-enable it
+# from the Actions tab before each Worlds; the page reads the live feed in the
+# meantime, so only the fallback goes stale.
+name: Worlds snapshot
+
+on:
+  schedule:
+    - cron: '23 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write # commit the snapshot
+  actions: write # start the deploy workflow
+
+concurrency:
+  group: worlds-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      # The script uses Node built-ins only, so there's no npm ci.
+      - name: Snapshot, then commit and deploy if it changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          result=$(node scripts/worlds-snapshot.mjs)
+          echo "$result"
+          if [ -z "$(git status --porcelain -- src/data/worlds-snapshot.json)" ]; then
+            echo "Snapshot unchanged."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/data/worlds-snapshot.json
+          git commit -m "Update the Worlds snapshot from the worlds-cal feed" -m "$result"
+          # A push to main between the rebase and the push is rejected; retry.
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              pushed=1
+              break
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep 5
+          done
+          if [ -z "$pushed" ]; then
+            echo "Couldn't push the snapshot after 3 tries."
+            exit 1
+          fi
+          # A push made with GITHUB_TOKEN doesn't trigger other workflows, so
+          # start the deploy explicitly.
+          gh workflow run deploy.yml --ref main
