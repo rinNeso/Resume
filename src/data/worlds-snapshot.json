@@ -1,7 +1,7 @@
 {
   "calendar": "LoL Worlds 2026",
-  "fetchedAt": "2026-10-28T18:54:10.158Z",
-  "feedStamp": "2026-10-28T15:45:45.000Z",
+  "fetchedAt": "2026-10-29T16:13:20.465Z",
+  "feedStamp": "2026-10-29T13:37:16.000Z",
   "complete": false,
   "events": [
     {"uid":"lolesports-115660588583171786@worlds-cal","start":"2026-10-15T18:00:00.000Z","end":"2026-10-15T22:30:00.000Z","match":"KC 3–2 C9","stage":"Play-Ins","score":{"teams":["KC","C9"],"wins":[3,2]}},
@@ -34,8 +34,8 @@
     {"uid":"lolesports-115660540726095051@worlds-cal","start":"2026-10-26T18:00:00.000Z","end":"2026-10-26T19:00:00.000Z","match":"BLG 1–0 KC","stage":"Swiss","score":{"teams":["BLG","KC"],"wins":[1,0]}},
     {"uid":"lolesports-115660540726095053@worlds-cal","start":"2026-10-26T19:00:00.000Z","end":"2026-10-26T22:00:00.000Z","match":"TSW 0–2 LOS","stage":"Swiss","score":{"teams":["TSW","LOS"],"wins":[0,2]}},
     {"uid":"lolesports-115660540726095057@worlds-cal","start":"2026-10-26T22:00:00.000Z","end":"2026-10-27T01:00:00.000Z","match":"AL 0–2 TLAW","stage":"Swiss","score":{"teams":["AL","TLAW"],"wins":[0,2]}},
-    {"uid":"lolesports-115660540726095061@worlds-cal","start":"2026-10-28T20:00:00.000Z","end":"2026-10-28T23:00:00.000Z","match":"MKOI vs T1","stage":"Swiss"},
-    {"uid":"lolesports-115660540726095065@worlds-cal","start":"2026-10-28T23:00:00.000Z","end":"2026-10-29T02:00:00.000Z","match":"LYON vs IG","stage":"Swiss"},
+    {"uid":"lolesports-115660540726095061@worlds-cal","start":"2026-10-28T20:00:00.000Z","end":"2026-10-28T23:00:00.000Z","match":"T1 2–0 MKOI","stage":"Swiss","score":{"teams":["T1","MKOI"],"wins":[2,0]}},
+    {"uid":"lolesports-115660540726095065@worlds-cal","start":"2026-10-28T23:00:00.000Z","end":"2026-10-29T02:00:00.000Z","match":"LYON 1–2 IG","stage":"Swiss","score":{"teams":["LYON","IG"],"wins":[1,2]}},
     {"uid":"lolesports-115660540726095073@worlds-cal","start":"2026-10-29T20:00:00.000Z","end":"2026-10-29T23:00:00.000Z","match":"CFO vs KC","stage":"Swiss"},
     {"uid":"lolesports-115660540726095069@worlds-cal","start":"2026-10-29T23:00:00.000Z","end":"2026-10-30T02:00:00.000Z","match":"BLG vs TES","stage":"Swiss"},
     {"uid":"lolesports-115660540726095077@worlds-cal","start":"2026-10-30T20:00:00.000Z","end":"2026-10-30T23:00:00.000Z","match":"TLAW vs LOS","stage":"Swiss"},
