@@ -56,7 +56,7 @@ export const experience = [
   {
     title: 'Junior Software Developer',
     org: 'Primerica',
-    when: '2017 – 2018',
+    when: 'May 2017 – Aug 2017',
     where: 'Atlanta, GA',
     points: [
       'Upgraded a customer portal serving Primerica\'s ~5.5 million life insurance clients from Java 6 to Java 8.',
