@@ -1,7 +1,7 @@
 {
   "calendar": "LoL Worlds 2026",
-  "fetchedAt": "2026-11-08T16:00:30.466Z",
-  "feedStamp": "2026-11-08T09:29:11.000Z",
+  "fetchedAt": "2026-11-09T19:52:24.402Z",
+  "feedStamp": "2026-11-09T16:47:06.000Z",
   "complete": false,
   "events": [
     {"uid":"lolesports-115660588583171786@worlds-cal","start":"2026-10-15T18:00:00.000Z","end":"2026-10-15T22:30:00.000Z","match":"KC 3–2 C9","stage":"Play-Ins","score":{"teams":["KC","C9"],"wins":[3,2]}},
@@ -48,7 +48,7 @@
     {"uid":"lolesports-115660540726095097@worlds-cal","start":"2026-11-05T22:00:00.000Z","end":"2026-11-06T02:30:00.000Z","match":"BLG 3–0 DK","stage":"Quarterfinals","score":{"teams":["BLG","DK"],"wins":[3,0]}},
     {"uid":"lolesports-115660540726095103@worlds-cal","start":"2026-11-06T22:00:00.000Z","end":"2026-11-07T02:30:00.000Z","match":"T1 3–1 KC","stage":"Quarterfinals","score":{"teams":["T1","KC"],"wins":[3,1]}},
     {"uid":"lolesports-115660540726095127@worlds-cal","start":"2026-11-07T22:00:00.000Z","end":"2026-11-08T02:30:00.000Z","match":"GEN 3–0 IG","stage":"Semifinals","score":{"teams":["GEN","IG"],"wins":[3,0]}},
-    {"uid":"lolesports-115660540726095121@worlds-cal","start":"2026-11-08T22:00:00.000Z","end":"2026-11-09T02:30:00.000Z","match":"T1 vs BLG","stage":"Semifinals"},
-    {"uid":"lolesports-115660540726095133@worlds-cal","start":"2026-11-14T19:00:00.000Z","end":"2026-11-14T23:30:00.000Z","match":"TBD vs GEN","stage":"Finals"}
+    {"uid":"lolesports-115660540726095121@worlds-cal","start":"2026-11-08T22:00:00.000Z","end":"2026-11-09T02:30:00.000Z","match":"BLG 3–1 T1","stage":"Semifinals","score":{"teams":["BLG","T1"],"wins":[3,1]}},
+    {"uid":"lolesports-115660540726095133@worlds-cal","start":"2026-11-14T19:00:00.000Z","end":"2026-11-14T23:30:00.000Z","match":"GEN vs BLG","stage":"Finals"}
   ]
 }
