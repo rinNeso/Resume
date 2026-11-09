@@ -32,6 +32,24 @@
       </p>
     </section>
 
+    <section id="skills">
+      <h2 class="section-title">
+        Skills
+      </h2>
+      <dl class="skills">
+        <template
+          v-for="[label, items] in skills"
+          :key="label"
+        >
+          <dt class="label">
+            {{ label }}
+          </dt>
+          <!-- eslint-disable-next-line vue/no-v-html -- trusted static content from src/data -->
+          <dd v-html="items" />
+        </template>
+      </dl>
+    </section>
+
     <section id="experience">
       <h2 class="section-title">
         Experience
@@ -84,24 +102,6 @@
       </v-row>
     </section>
 
-    <section id="skills">
-      <h2 class="section-title">
-        Skills
-      </h2>
-      <dl class="skills">
-        <template
-          v-for="[label, items] in skills"
-          :key="label"
-        >
-          <dt class="label">
-            {{ label }}
-          </dt>
-          <!-- eslint-disable-next-line vue/no-v-html -- trusted static content from src/data -->
-          <dd v-html="items" />
-        </template>
-      </dl>
-    </section>
-
     <section id="education">
       <h2 class="section-title">
         Education
@@ -128,9 +128,9 @@
   import { education, experience, profile, projects, skills, summary } from '@/data/resume'
 
   const sections = [
+    { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
     { id: 'education', label: 'Education' },
   ]
 

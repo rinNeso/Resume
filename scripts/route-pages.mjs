@@ -103,12 +103,12 @@ ${list(j.points)}`).join('\n')
 ${list(profile.credentials.map(c => c.text), esc)}
 ${contact}
 <p>${esc(summary)}</p>
+<h2>Skills</h2>
+<ul>${skills.map(([label, items]) => `<li><strong>${esc(label)}:</strong> ${inlineHtml(items)}</li>`).join('')}</ul>
 <h2>Experience</h2>
 ${jobs}
 <h2>Projects</h2>
 <ul>${work}</ul>
-<h2>Skills</h2>
-<ul>${skills.map(([label, items]) => `<li><strong>${esc(label)}:</strong> ${inlineHtml(items)}</li>`).join('')}</ul>
 <h2>Education</h2>
 <ul>${education.map(e => `<li><strong>${esc(e.school)}</strong> · ${esc(e.detail)} · ${esc(e.when)}</li>`).join('')}</ul>`
 }
