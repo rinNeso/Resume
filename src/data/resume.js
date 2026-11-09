@@ -33,6 +33,7 @@ export const experience = [
       'Promoted from front-end developer on a 10-person team to lead of a 4-person team, mentoring 3 junior developers.',
       'Co-built <a href="https://p1.dso.mil" target="_blank" rel="noopener">p1.dso.mil</a>, Platform One\'s public website, from scratch in two weeks with one other developer using Vue.js and Vuetify.',
       'Stood up new projects on Party Bus by adapting a standard self-hosted GitLab CI/CD pipeline to each project\'s build, test and deployment needs.',
+      'Deployed Big Bang, Platform One\'s Kubernetes-based DevSecOps platform, on a k3d cluster using Flux and Helm (Istio service mesh, Kyverno policy engine), and gave the Big Bang team feedback on its getting-started documentation.',
       'Review AI-generated code from teammates for security and compliance before merge, combining hand review with AI-assisted analysis.',
       'Helped migrate several documentation sites to VitePress.',
       'Work in sprints with full Scrum ceremonies: planning, daily standups, reviews and retrospectives.',
@@ -191,7 +192,7 @@ export const projects = [
 export const skills = [
   ['Languages', 'JavaScript, Java, Swift, Python, Lua, Visual Basic (VBA), SQL, HTML/CSS, Bash'],
   ['Frameworks', 'Vue.js, Vuetify, VitePress, Spring, SwiftUI, Apple HealthKit'],
-  ['DevOps', 'Self-hosted GitLab CI/CD, Platform One Party Bus and Big Bang, Docker, GitHub Actions, Maven, Tomcat, TestFlight'],
+  ['DevOps', 'Self-hosted GitLab CI/CD, Platform One Party Bus and Big Bang, Kubernetes (k3d), Helm, Flux, Docker, GitHub Actions, Maven, Tomcat, TestFlight'],
   ['Systems', 'Red Hat Enterprise Linux, TrueNAS SCALE, ZFS, Cloudflare Tunnel, Ubiquiti networking'],
   ['AI tools', 'Claude Code, Ask Sage, OpenAI Codex, Gemini, self-hosted LLMs (Qwen)'],
   ['Practices', 'Scrum, secure code review, technical mentorship, Neovim (<a href="https://github.com/rinNeso/nvim" target="_blank" rel="noopener">my config</a>)'],
