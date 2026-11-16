@@ -35,7 +35,7 @@ export const experience = [
       'Stood up new projects on Party Bus by adapting a standard self-hosted GitLab CI/CD pipeline to each project\'s build, test and deployment needs.',
       'Deployed Big Bang, Platform One\'s Kubernetes-based DevSecOps platform, on a k3d cluster using Flux and Helm (Istio service mesh, Kyverno policy engine), and gave the Big Bang team feedback on its getting-started documentation.',
       'Review AI-generated code from teammates for security and compliance before merge, combining hand review with AI-assisted analysis.',
-      'Helped migrate several documentation sites to VitePress.',
+      'Built the VitePress theme that brought Platform One\'s documentation sites onto a new design language first used on <a href="https://p1.dso.mil" target="_blank" rel="noopener">p1.dso.mil</a>, helped set up their CI/CD pipeline and deployment, and create and update pages on <a href="https://p1docs.dso.mil" target="_blank" rel="noopener">p1docs.dso.mil</a>.',
       'Work in sprints with full Scrum ceremonies: planning, daily standups, reviews and retrospectives.',
     ],
   },
